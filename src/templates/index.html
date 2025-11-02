@@ -4,46 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TESSERACT - GTFS Database Project</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f5f6fa;
-      color: #2f3640;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-    }
-    header {
-      background-color: #273c75;
-      color: white;
-      padding: 30px 10px;
-    }
-    h1 {
-      margin: 0;
-      font-size: 2em;
-    }
-    section {
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 20px;
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    h2 {
-      color: #192a56;
-      margin-bottom: 10px;
-    }
-    p {
-      line-height: 1.6;
-    }
-    footer {
-      margin-top: 40px;
-      padding: 15px;
-      background-color: #dcdde1;
-      color: #353b48;
-    }
-  </style>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
   <header>
@@ -51,30 +12,34 @@
     <p><strong>Team:</strong> TESSERACT | BLG317E Database Systems</p>
   </header>
 
-  <section>
-    <h2>About the Project</h2>
-    <p>
-      This project aims to design a relational database based on the GTFS
-      (General Transit Feed Specification) format for Istanbul's public
-      transportation network. It provides structured information about
-      agencies, routes, stops, trips, and schedules.
-    </p>
+  <main class="container">
+    <section class="left">
+      <h2>About the Project</h2>
+      <p>
+        This project designs a relational database based on the GTFS
+        (General Transit Feed Specification) format for Istanbul's public
+        transportation network. It provides structured information about
+        agencies, routes, stops, trips, and schedules.
+      </p>
 
-    <h2>Dataset</h2>
-    <p>
-      <a href="https://data.ibb.gov.tr/dataset/public-transport-gtfs-data" target="_blank">
-        Istanbul Public Transport GTFS Data
-      </a>
-    </p>
+      <h2>Dataset</h2>
+      <p>
+        <a href="https://data.ibb.gov.tr/dataset/public-transport-gtfs-data" target="_blank">
+          Istanbul Public Transport GTFS Data
+        </a>
+      </p>
+    </section>
 
-    <h2>Team Members</h2>
-    <ul style="list-style-type:none; padding:0;">
-      <li><strong>Zarif Beste Süner</strong> – Routes & Frequencies</li>
-      <li><strong>Mehmet Elhan</strong> – Stops & Agency</li>
-      <li><strong>Mücahit Günay</strong> – Trips & Calendar</li>
-      <li><strong>Mustafa Talha Yıldırım</strong> – Stop Times & Shapes</li>
-    </ul>
-  </section>
+    <section class="right">
+      <h2>Team Members</h2>
+      <ul>
+        <li><strong>Zarif Beste Süner</strong> – Routes & Frequencies</li>
+        <li><strong>Mehmet Elhan</strong> – Stops & Agency</li>
+        <li><strong>Mücahit Günay</strong> – Trips & Calendar</li>
+        <li><strong>Mustafa Talha Yıldırım</strong> – Stop Times & Shapes</li>
+      </ul>
+    </section>
+  </main>
 
   <footer>
     &copy; 2025 TESSERACT Team | Istanbul Technical University
