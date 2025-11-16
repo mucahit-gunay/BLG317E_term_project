@@ -73,4 +73,32 @@ CREATE TABLE trips (
     FOREIGN KEY (route_id) REFERENCES routes(route_id)
     ON DELETE CASCADE
 );
+--Talha table 1
+--6. STOP_TIMES TABLE
+CREATE TABLE stop_times (
+    trip_id INTEGER NOT NULL,
+    arrival_time TIME NOT NULL,
+    departure_time TIME NOT NULL,
+    stop_id INTEGER NOT NULL,
+    stop_sequence INTEGER NOT NULL,
+    stop_headsign VARCHAR(255) NULL,
+    pickup_type SMALLINT,
+    drop_off_type SMALLINT,
+    shape_dist_traveled DECIMAL(10, 5) NULL,
+    timepoint SMALLINT,
 
+    -- Birincil anahtarı (PRIMARY KEY) iki sütunun kombinasyonu olarak tanımlıyoruz:
+    PRIMARY KEY (trip_id, stop_sequence)
+);
+--Talha table 2
+--7.SHAPES TABLE
+CREATE TABLE shapes (
+    shape_id INTEGER NOT NULL,
+    shape_pt_lat DECIMAL(16, 13) NOT NULL,
+    shape_pt_lon DECIMAL(16, 13) NOT NULL,
+    shape_pt_sequence INTEGER NOT NULL,
+    shape_dist_traveled DECIMAL(10, 5) NULL,
+
+    -- Birincil anahtar, shape_id ve o hattaki noktanın sırasıdır:
+    PRIMARY KEY (shape_id, shape_pt_sequence)
+);

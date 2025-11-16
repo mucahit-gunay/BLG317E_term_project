@@ -6,7 +6,7 @@ Bu proje, İTÜ BLG 317E dersi için hazırlanmıştır. İstanbul toplu taşım
 
 | Üye | Ana Sorumluluk (Tablo) |
 | :--- | :--- |
-| Mustafa Talha Yıldırım | Stop Times |
+| Mustafa Talha Yıldırım | Stop Times ,Shapes| 
 | Zarif Beste Süner | Routes , Frequencies| 
 | Mehmet Elhan | Stops, Agency |
 | Mücahit Günay | Trips |
