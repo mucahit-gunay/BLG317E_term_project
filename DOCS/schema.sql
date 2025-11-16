@@ -73,8 +73,24 @@ CREATE TABLE trips (
     FOREIGN KEY (route_id) REFERENCES routes(route_id)
     ON DELETE CASCADE
 );
+
+-- Mucahit Table 2
+-- 6. CALENDAR TABLE
+CREATE TABLE calendar (
+    service_id VARCHAR(255) PRIMARY KEY,
+    monday VARCHAR(1) NOT NULL CHECK (monday IN ('0', '1')),
+    tuesday VARCHAR(1) NOT NULL CHECK (tuesday IN ('0', '1')),
+    wednesday VARCHAR(1) NOT NULL CHECK (wednesday IN ('0', '1')),
+    thursday VARCHAR(1) NOT NULL CHECK (thursday IN ('0', '1')),
+    friday VARCHAR(1) NOT NULL CHECK (friday IN ('0', '1')),
+    saturday VARCHAR(1) NOT NULL CHECK (saturday IN ('0', '1')),
+    sunday VARCHAR(1) NOT NULL CHECK (sunday IN ('0', '1')),
+    start_date VARCHAR(8) NOT NULL,
+    end_date VARCHAR(8) NOT NULL
+);
+
 --Talha table 1
---6. STOP_TIMES TABLE
+--7. STOP_TIMES TABLE
 CREATE TABLE stop_times (
     trip_id INTEGER NOT NULL,
     arrival_time TIME NOT NULL,
@@ -91,7 +107,7 @@ CREATE TABLE stop_times (
     PRIMARY KEY (trip_id, stop_sequence)
 );
 --Talha table 2
---7.SHAPES TABLE
+--8.SHAPES TABLE
 CREATE TABLE shapes (
     shape_id INTEGER NOT NULL,
     shape_pt_lat DECIMAL(16, 13) NOT NULL,
