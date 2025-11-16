@@ -22,13 +22,24 @@ CREATE TABLE routes (
     route_text_color VARCHAR(10)
 );
 
+-- Mucahit Table 1
 -- 3. TRIPS TABLe
 CREATE TABLE trips (
-    trip_id VARCHAR(255) PRIMARY KEY,
-    route_id VARCHAR(255) REFERENCES routes(route_id),
-   
+    _id INTEGER PRIMARY KEY,
+    route_id INTEGER,
+    service_id INTEGER,
+    trip_id INTEGER UNIQUE NOT NULL,
+    trip_headsign VARCHAR(255),
+    trip_short_name VARCHAR(100),
+    direction_id SMALLINT,
+    block_id VARCHAR(255),
+    shape_id INTEGER,
+    wheelchair_accessible SMALLINT,
+    bikes_allowed SMALLINT,
+    PRIMARY KEY (trip_id),
+    FOREIGN KEY (route_id) REFERENCES routes(route_id)
+    ON DELETE CASCADE
 );
-
 
 -- 4. FREQUENCIES TABLE
 CREATE TABLE frequencies (
