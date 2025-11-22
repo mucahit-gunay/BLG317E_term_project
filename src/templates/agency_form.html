@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h2>{{ 'Ajans Düzenle' if agency else 'Yeni Ajans Ekle' }}</h2>
+
+<form method="POST" class="mt-3">
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label class="form-label">Agency ID (Zorunlu)</label>
+            <input type="text" name="agency_id" class="form-control" 
+                   value="{{ agency['agency_id'] if agency else '' }}" 
+                   {{ 'readonly' if agency else 'required' }}>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label class="form-label">Agency Name (Zorunlu)</label>
+            <input type="text" name="agency_name" class="form-control" 
+                   value="{{ agency['agency_name'] if agency else '' }}" required>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label class="form-label">Agency URL (Zorunlu)</label>
+            <input type="text" name="agency_url" class="form-control" 
+                   value="{{ agency['agency_url'] if agency else '' }}" required>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label class="form-label">Timezone (Örn: Europe/Istanbul)</label>
+            <input type="text" name="agency_timezone" class="form-control" 
+                   value="{{ agency['agency_timezone'] if agency else 'Europe/Istanbul' }}" required>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label class="form-label">Language (Örn: tr)</label>
+            <input type="text" name="agency_lang" class="form-control" 
+                   value="{{ agency['agency_lang'] if agency else 'tr' }}" required>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label class="form-label">Phone (Opsiyonel)</label>
+            <input type="text" name="agency_phone" class="form-control" 
+                   value="{{ agency['agency_phone'] if agency else '' }}">
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label class="form-label">Fare URL (Opsiyonel)</label>
+            <input type="text" name="agency_fare_url" class="form-control" 
+                   value="{{ agency['agency_fare_url'] if agency else '' }}">
+        </div>
+    </div>
+    
+    <div class="mb-3">
+        <label class="form-label">Email (Opsiyonel)</label>
+        <input type="email" name="agency_email" class="form-control" 
+               value="{{ agency['agency_email'] if agency else '' }}">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+    <a href="/agency" class="btn btn-secondary">İptal</a>
+</form>
+{% endblock %}
