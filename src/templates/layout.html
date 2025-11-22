@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TESSERACT - Ulaşım Sistemi</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;400;700&display=swap" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+</head>
+<body id="top">
+    
+    <div class="cyber-bg">
+        <div class="cyber-gradient"></div>
+        <div class="matrix-rain" id="matrixRain"></div>
+    </div>
+    <div class="particles" id="particlesContainer"></div>
+    <div class="data-streams" id="dataStreams"></div>
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+    <div class="grid-overlay">
+        <div class="grid-lines"></div>
+        <div class="grid-glow"></div>
+    </div>
+    <div class="scanlines"></div>
+    <div class="noise-overlay"></div>
+    <nav>
+        <div class="nav-container">
+            <a href="/" class="logo">TESSERACT_DB</a>
+            <ul class="nav-links">
+                <li><a href="/">Ana Panel</a></li>
+                <li><a href="/agency">Agencies</a></li>
+                <li><a href="/routes">Routes</a></li>
+                <li><a href="/stops">Stops</a></li>
+                <li><a href="/trips">Trips</a></li>
+            </ul>
+            <div class="nav-bottom">
+                <a href="https://github.com/" target="_blank" class="cyber-button">GITHUB REPO</a>
+            </div>
+            
+            <button class="mobile-menu-button" id="mobileMenuBtn">
+                <div class="hamburger">
+                    <span></span><span></span><span></span>
+                </div>
+            </button>
+        </div>
+    </nav>
+
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <a href="/" class="mobile-menu-logo">TESSERACT</a>
+            <button class="mobile-menu-close" id="mobileMenuClose">✕</button>
+        </div>
+        <nav class="mobile-menu-nav">
+            <ul>
+                <li><a href="/">Ana Panel</a></li>
+                <li><a href="/agency">Agencies (Kurumlar)</a></li>
+                <li><a href="/routes">Routes (Rotalar)</a></li>
+                <li><a href="/stops">Stops (Duraklar)</a></li>
+                <li><a href="/trips">Trips (Seferler)</a></li>
+                <li><a href="/calendar">Calendar</a></li>
+                <li><a href="/shapes">Shapes</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <main style="padding-top: 80px; min-height: 80vh;">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <div style="max-width: 1400px; margin: 20px auto; padding: 0 2rem;">
+            {% for category, message in messages %}
+              <div class="feature-card" style="padding: 1rem; margin-bottom: 1rem; border-color: var(--primary-cyan);">
+                <strong style="color: var(--primary-cyan);">SİSTEM MESAJI:</strong> {{ message }}
+              </div>
+            {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="/agency">Agencies</a>
+                <span class="footer-separator">•</span>
+                <a href="/routes">Routes</a>
+                <span class="footer-separator">•</span>
+                <a href="/stops">Stops</a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 TESSERACT Project Group. BLG 317E.</p>
+                <p class="footer-credit">GTFS Veritabanı Yönetim Sistemi</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
