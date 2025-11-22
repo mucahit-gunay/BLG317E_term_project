@@ -1,48 +1,98 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TESSERACT - GTFS Database Project</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-  <header>
-    <h1>Public Transportation GTFS Data of Istanbul</h1>
-    <p><strong>Team:</strong> TESSERACT | BLG317E Database Systems</p>
-  </header>
+{% extends "layout.html" %}
 
-  <main class="container">
-    <section class="left">
-      <h2>About the Project</h2>
-      <p>
-        This project designs a relational database based on the GTFS
-        (General Transit Feed Specification) format for Istanbul's public
-        transportation network. It provides structured information about
-        agencies, routes, stops, trips, and schedules.
-      </p>
-
-      <h2>Dataset</h2>
-      <p>
-        <a href="https://data.ibb.gov.tr/dataset/public-transport-gtfs-data" target="_blank">
-          Istanbul Public Transport GTFS Data
-        </a>
-      </p>
+{% block content %}
+    <section class="hero">
+        <div class="hero-container">
+            <h1 class="hero-title">
+                <span class="hero-nexus">İSTANBUL</span><span class="hero-flow">ULAŞIM</span>
+            </h1>
+            <p class="hero-subtitle">GTFS Veritabanı Yönetim Sistemi. Rotaları, durakları ve seferleri tek bir merkezden yönetin.</p>
+            <div class="hero-buttons">
+                <a href="/routes" class="btn-primary">Rotaları İncele</a>
+                <a href="/stops" class="btn-secondary">Durak Haritası</a>
+            </div>
+        </div>
     </section>
 
-    <section class="right">
-      <h2>Team Members</h2>
-      <ul>
-        <li><strong>Zarif Beste Süner</strong> – Routes & Frequencies</li>
-        <li><strong>Mehmet Elhan</strong> – Stops & Agency</li>
-        <li><strong>Mücahit Günay</strong> – Trips & Calendar</li>
-        <li><strong>Mustafa Talha Yıldırım</strong> – Stop Times & Shapes</li>
-      </ul>
+    <section class="stats fade-up" id="stats">
+        <div class="stats-container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number">10+</span>
+                    <span class="stat-label">Kayıtlı Ajans</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">150+</span>
+                    <span class="stat-label">Aktif Rota</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">5000+</span>
+                    <span class="stat-label">Durak Noktası</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label">Veri Bütünlüğü</span>
+                </div>
+            </div>
+        </div>
     </section>
-  </main>
 
-  <footer>
-    &copy; 2025 TESSERACT Team | Istanbul Technical University
-  </footer>
-</body>
-</html>
+    <section class="features fade-up" id="modules">
+        <div class="features-container">
+            <div class="section-header">
+                <h2 class="section-title">Veri Modülleri</h2>
+                <p class="section-subtitle">Yönetmek istediğiniz veritabanı tablosunu seçin</p>
+            </div>
+            
+            <div class="features-grid">
+                <a href="/agency" style="text-decoration: none;">
+                    <div class="feature-card">
+                        <div class="feature-icon">🏢</div>
+                        <h3>Agencies</h3>
+                        <p>Metro İstanbul, İETT gibi operatör firmaların kayıtlarını buradan yönetin.</p>
+                    </div>
+                </a>
+                
+                <a href="/routes" style="text-decoration: none;">
+                    <div class="feature-card">
+                        <div class="feature-icon">🚌</div>
+                        <h3>Routes</h3>
+                        <p>Sistemdeki tüm hatları, renk kodlarını ve rota tiplerini düzenleyin.</p>
+                    </div>
+                </a>
+                
+                <a href="/stops" style="text-decoration: none;">
+                    <div class="feature-card">
+                        <div class="feature-icon">📍</div>
+                        <h3>Stops</h3>
+                        <p>Durakların enlem, boylam ve isim bilgilerini kontrol edin.</p>
+                    </div>
+                </a>
+                
+                <a href="/trips" style="text-decoration: none;">
+                    <div class="feature-card">
+                        <div class="feature-icon">⏱️</div>
+                        <h3>Trips</h3>
+                        <p>Hangi araç hangi saatte kalkıyor? Sefer planlaması yapın.</p>
+                    </div>
+                </a>
+                
+                <a href="/stop_times" style="text-decoration: none;">
+                    <div class="feature-card">
+                        <div class="feature-icon">⏳</div>
+                        <h3>Stop Times</h3>
+                        <p>Durak varış ve kalkış saatlerini içeren detaylı zaman çizelgesi.</p>
+                    </div>
+                </a>
+                
+                <a href="/calendar" style="text-decoration: none;">
+                    <div class="feature-card">
+                        <div class="feature-icon">📅</div>
+                        <h3>Calendar</h3>
+                        <p>Hafta içi ve hafta sonu servis günlerini belirleyin.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+{% endblock %}
