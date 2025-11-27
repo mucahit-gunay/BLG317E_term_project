@@ -28,7 +28,10 @@ GTFS_FILES = [
 ]
 
 def download_gtfs_data(url=None, output_dir='gtfs_data'):
-
+    """
+    GTFS verilerini indir
+    Eğer URL verilmezse, kullanıcıdan CSV dosyalarını manuel olarak koymasını ister
+    """
     os.makedirs(output_dir, exist_ok=True)
     
     if url:
@@ -523,16 +526,23 @@ def main():
     data_dir = 'gtfs_data'
     
     if not os.path.exists(data_dir):
-        print(f" {data_dir} klasörü bulunamadı!")
+        print(f"❌ {data_dir} klasörü bulunamadı!")
+        print()
+        print("📥 İBB'den GTFS verilerini indir:")
+        print("   1. https://data.ibb.gov.tr/dataset/public-transport-gtfs-data adresine git")
+        print("   2. 'Veri ve Kaynaklar' bölümünden CSV dosyalarını indir")
+        print("   3. Dosyaları gtfs_data klasörüne koy")
+        print()
+        print("   Veya ZIP dosyası varsa, script otomatik açabilir")
         return
     
     # Veritabanına bağlan
-    print("Veritabanına bağlanılıyor...")
+    print("🔌 Veritabanına bağlanılıyor...")
     conn = get_db_connection()
     if not conn:
         return
     
-    print("Bağlantı başarılı!")
+    print("✅ Bağlantı başarılı!")
     print()
     
     # Her dosyayı yükle (hem .txt hem .csv uzantılarını dene)
@@ -548,23 +558,24 @@ def main():
     }
     
     for filebase, import_func in import_map.items():
+        # Önce .csv, sonra .txt dene
         file_path = None
-        for ext in ['.csv']:
+        for ext in ['.csv', '.txt']:
             test_path = os.path.join(data_dir, f"{filebase}{ext}")
             if os.path.exists(test_path):
                 file_path = test_path
                 break
         
         if file_path:
-            print(f"{os.path.basename(file_path)} yükleniyor...")
+            print(f"📥 {os.path.basename(file_path)} yükleniyor...")
             import_func(conn, file_path)
         else:
-            print(f"⚠️  {filebase}.csv bulunamadı, atlanıyor...")
+            print(f"⚠️  {filebase}.csv veya {filebase}.txt bulunamadı, atlanıyor...")
     
     conn.close()
     print()
     print("=" * 60)
-    print("İşlem tamamlandı!")
+    print("✅ İşlem tamamlandı!")
     print("=" * 60)
 
 if __name__ == '__main__':

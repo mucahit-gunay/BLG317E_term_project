@@ -3,10 +3,8 @@
 
 set -e  # Hata durumunda dur
 
-echo "=========================================="
-echo "🚀 TESSERACT GTFS Project Setup"
-echo "=========================================="
-echo ""
+echo "TESSERACT GTFS Project Setup"
+
 
 # Renkler
 GREEN='\033[0;32m'
@@ -18,18 +16,18 @@ NC='\033[0m' # No Color
 # 1. Python ve pip kontrolü
 echo -e "${YELLOW}📦 Python kontrolü...${NC}"
 if ! command -v python3 &> /dev/null; then
-    echo -e "${RED}❌ Python3 bulunamadı! Lütfen Python3 yükleyin.${NC}"
+    echo -e "${RED} Python3 bulunamadı! Lütfen Python3 yükleyin.${NC}"
     exit 1
 fi
-echo -e "${GREEN}✅ Python3: $(python3 --version)${NC}"
+echo -e "${GREEN}Python3: $(python3 --version)${NC}"
 
 # 2. MySQL kontrolü
 echo -e "${YELLOW}🗄️  MySQL kontrolü...${NC}"
 if ! command -v mysql &> /dev/null; then
-    echo -e "${RED}❌ MySQL bulunamadı! Lütfen MySQL yükleyin.${NC}"
+    echo -e "${RED} MySQL bulunamadı! Lütfen MySQL yükleyin.${NC}"
     exit 1
 fi
-echo -e "${GREEN}✅ MySQL bulundu${NC}"
+echo -e "${GREEN}MySQL bulundu${NC}"
 
 # 3. MySQL servisinin çalışıp çalışmadığını kontrol et
 echo -e "${YELLOW}🔍 MySQL servisi kontrolü...${NC}"
@@ -135,7 +133,26 @@ fi
 rm /tmp/setup_db.sql
 echo -e "${GREEN}✅ Veritabanı ve kullanıcı oluşturuldu${NC}"
 
-# 8. Schema'yı yükle
+# 8. Mevcut tabloları sil (varsa)
+echo -e "${YELLOW}🗑️  Mevcut tablolar kontrol ediliyor ve temizleniyor...${NC}"
+cat > /tmp/drop_tables.sql << EOF
+SET FOREIGN_KEY_CHECKS = 0;
+DROP TABLE IF EXISTS frequencies;
+DROP TABLE IF EXISTS stop_times;
+DROP TABLE IF EXISTS trips;
+DROP TABLE IF EXISTS shapes;
+DROP TABLE IF EXISTS calendar;
+DROP TABLE IF EXISTS routes;
+DROP TABLE IF EXISTS stops;
+DROP TABLE IF EXISTS agency;
+SET FOREIGN_KEY_CHECKS = 1;
+EOF
+
+$MYSQL_CMD ${DB_NAME} < /tmp/drop_tables.sql 2>/dev/null || true
+rm /tmp/drop_tables.sql 2>/dev/null || true
+echo -e "${GREEN}✅ Eski tablolar temizlendi${NC}"
+
+# 9. Schema'yı yükle
 echo -e "${YELLOW}📋 Veritabanı şeması yükleniyor...${NC}"
 if [ -f "DOCS/schema.sql" ]; then
     # Yorum satırlarını temizle (-- ile başlayan veya boşluk sonrası -- olan satırları kaldır)
@@ -152,7 +169,7 @@ else
     echo -e "${YELLOW}⚠️  DOCS/schema.sql bulunamadı, atlanıyor...${NC}"
 fi
 
-# 9. GTFS verilerini import et
+# 10. GTFS verilerini import et
 echo -e "${YELLOW}📥 GTFS verileri import ediliyor...${NC}"
 if [ -d "gtfs_data" ] && [ "$(ls -A gtfs_data/*.csv 2>/dev/null)" ]; then
     python3 download_and_import_gtfs.py
