@@ -2,9 +2,43 @@
 
 {% block content %}
 <div style="max-width: 1400px; margin: 0 auto; padding: 2rem;">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-        <h2 style="color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 2px;">Seferler Listesi (Trips)</h2>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+        <h2 style="color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 2px; margin: 0;">Seferler Listesi (Trips)</h2>
         <a href="/trips/add" style="background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple)); color: var(--darker-bg); padding: 0.8rem 2rem; text-decoration: none; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%);">+ Yeni Sefer Ekle</a>
+    </div>
+    
+    <!-- Arama ve Filtreleme -->
+    <div style="background: var(--card-bg); border: 1px solid var(--border-color); padding: 1.5rem; margin-bottom: 2rem; backdrop-filter: blur(10px); clip-path: polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px);">
+        <form method="GET" action="/trips" style="display: grid; grid-template-columns: 2fr 1fr auto; gap: 1rem; align-items: end;">
+            <div>
+                <label style="display: block; color: var(--primary-cyan); font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.85rem;">Ara (Trip ID, Head Sign)</label>
+                <input type="text" name="search" value="{{ search }}" placeholder="Ara..." 
+                       style="width: 100%; padding: 0.8rem; background: rgba(0, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-primary); font-family: inherit;">
+            </div>
+            <div>
+                <label style="display: block; color: var(--primary-cyan); font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.85rem;">Route ID</label>
+                <select name="route" style="width: 100%; padding: 0.8rem; background: rgba(0, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-primary); font-family: inherit;">
+                    <option value="">Tümü</option>
+                    {% for route in routes %}
+                    <option value="{{ route['route_id'] }}" {{ 'selected' if route_filter == (route['route_id']|string) else '' }}>
+                        {{ route['route_id'] }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+                <button type="submit" style="background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple)); color: var(--darker-bg); padding: 0.8rem 1.5rem; border: none; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%); cursor: pointer;">Filtrele</button>
+                <a href="/trips" style="background: transparent; color: var(--text-secondary); padding: 0.8rem 1.5rem; text-decoration: none; border: 1px solid var(--border-color); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%); display: inline-block;">Temizle</a>
+            </div>
+        </form>
+    </div>
+    
+    <!-- Sonuç Bilgisi -->
+    <div style="margin-bottom: 1rem; color: var(--text-secondary); font-size: 0.9rem;">
+        Toplam <strong style="color: var(--primary-cyan);">{{ total_records }}</strong> kayıt bulundu
+        {% if search or route_filter %}
+        (filtrelenmiş)
+        {% endif %}
     </div>
     
     <div class="table-responsive" style="background: var(--card-bg); border: 1px solid var(--border-color); padding: 2rem; backdrop-filter: blur(10px); clip-path: polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px);">
@@ -42,6 +76,36 @@
             </tbody>
         </table>
     </div>
+    
+    <!-- Sayfalama -->
+    {% if total_pages > 1 %}
+    <div style="display: flex; justify-content: center; align-items: center; gap: 0.5rem; margin-top: 2rem; flex-wrap: wrap;">
+        {% if page > 1 %}
+        <a href="?page={{ page - 1 }}{% if search %}&search={{ search }}{% endif %}{% if route_filter %}&route={{ route_filter }}{% endif %}" 
+           style="background: rgba(0, 255, 255, 0.1); color: var(--primary-cyan); padding: 0.8rem 1.5rem; text-decoration: none; border: 1px solid var(--border-color); clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%);">← Önceki</a>
+        {% endif %}
+        
+        {% for p in range(1, total_pages + 1) %}
+            {% if p == 1 or p == total_pages or (p >= page - 2 and p <= page + 2) %}
+                {% if p == page %}
+                <span style="background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple)); color: var(--darker-bg); padding: 0.8rem 1.5rem; font-weight: 700; clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%);">{{ p }}</span>
+                {% else %}
+                <a href="?page={{ p }}{% if search %}&search={{ search }}{% endif %}{% if route_filter %}&route={{ route_filter }}{% endif %}" 
+                   style="background: rgba(0, 255, 255, 0.1); color: var(--primary-cyan); padding: 0.8rem 1.5rem; text-decoration: none; border: 1px solid var(--border-color); clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%);">{{ p }}</a>
+                {% endif %}
+            {% elif p == page - 3 or p == page + 3 %}
+                <span style="color: var(--text-secondary); padding: 0.8rem;">...</span>
+            {% endif %}
+        {% endfor %}
+        
+        {% if page < total_pages %}
+        <a href="?page={{ page + 1 }}{% if search %}&search={{ search }}{% endif %}{% if route_filter %}&route={{ route_filter }}{% endif %}" 
+           style="background: rgba(0, 255, 255, 0.1); color: var(--primary-cyan); padding: 0.8rem 1.5rem; text-decoration: none; border: 1px solid var(--border-color); clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%);">Sonraki →</a>
+        {% endif %}
+    </div>
+    <div style="text-align: center; margin-top: 1rem; color: var(--text-secondary); font-size: 0.9rem;">
+        Sayfa {{ page }} / {{ total_pages }} ({{ per_page }} kayıt/sayfa)
+    </div>
+    {% endif %}
 </div>
 {% endblock %}
-

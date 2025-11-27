@@ -119,11 +119,63 @@ def route_list():
         return "Veri tabanı bağlantı hatası!", 500
     try:
         cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM routes")
+        
+        # Arama ve filtreleme parametreleri
+        search = request.args.get('search', '').strip()
+        agency_filter = request.args.get('agency', '').strip()
+        route_type_filter = request.args.get('route_type', '').strip()
+        page = int(request.args.get('page', 1))
+        per_page = 50  # Sayfa başına kayıt sayısı
+        
+        # SQL sorgusu oluştur
+        where_clauses = []
+        params = []
+        
+        if search:
+            where_clauses.append("(route_short_name LIKE %s OR route_long_name LIKE %s OR route_id LIKE %s)")
+            search_param = f"%{search}%"
+            params.extend([search_param, search_param, search_param])
+        
+        if agency_filter:
+            where_clauses.append("agency_id = %s")
+            params.append(agency_filter)
+        
+        if route_type_filter:
+            where_clauses.append("route_type = %s")
+            params.append(route_type_filter)
+        
+        where_sql = " WHERE " + " AND ".join(where_clauses) if where_clauses else ""
+        
+        # Toplam kayıt sayısı
+        count_sql = f"SELECT COUNT(*) as total FROM routes{where_sql}"
+        cursor.execute(count_sql, params)
+        total_records = cursor.fetchone()['total']
+        total_pages = (total_records + per_page - 1) // per_page
+        
+        # Sayfalama ile veri çek
+        offset = (page - 1) * per_page
+        sql = f"SELECT * FROM routes{where_sql} ORDER BY route_id LIMIT %s OFFSET %s"
+        params.extend([per_page, offset])
+        cursor.execute(sql, params)
         results = cursor.fetchall()
+        
+        # Agency listesi (filtreleme için)
+        cursor.execute("SELECT DISTINCT agency_id FROM agency ORDER BY agency_id")
+        agencies = cursor.fetchall()
+        
         cursor.close()
         conn.close()
-        return render_template('routes_list.html', route_list=results)
+        
+        return render_template('routes_list.html', 
+                             route_list=results,
+                             agencies=agencies,
+                             search=search,
+                             agency_filter=agency_filter,
+                             route_type_filter=route_type_filter,
+                             page=page,
+                             total_pages=total_pages,
+                             total_records=total_records,
+                             per_page=per_page)
     except Exception as e:
         return f"Bir hata oluştu: {e}"
 
@@ -213,11 +265,45 @@ def stops_list():
         return "Veri tabanı bağlantı hatası!", 500
     try:
         cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM stops")
+        
+        # Arama ve filtreleme
+        search = request.args.get('search', '').strip()
+        page = int(request.args.get('page', 1))
+        per_page = 50
+        
+        where_clauses = []
+        params = []
+        
+        if search:
+            where_clauses.append("(stop_name LIKE %s OR stop_id LIKE %s)")
+            search_param = f"%{search}%"
+            params.extend([search_param, search_param])
+        
+        where_sql = " WHERE " + " AND ".join(where_clauses) if where_clauses else ""
+        
+        # Toplam kayıt
+        count_sql = f"SELECT COUNT(*) as total FROM stops{where_sql}"
+        cursor.execute(count_sql, params)
+        total_records = cursor.fetchone()['total']
+        total_pages = (total_records + per_page - 1) // per_page
+        
+        # Sayfalama
+        offset = (page - 1) * per_page
+        sql = f"SELECT * FROM stops{where_sql} ORDER BY stop_id LIMIT %s OFFSET %s"
+        params.extend([per_page, offset])
+        cursor.execute(sql, params)
         results = cursor.fetchall()
+        
         cursor.close()
         conn.close()
-        return render_template('stops_list.html', stops_list=results)
+        
+        return render_template('stops_list.html', 
+                             stops_list=results,
+                             search=search,
+                             page=page,
+                             total_pages=total_pages,
+                             total_records=total_records,
+                             per_page=per_page)
     except Exception as e:
         return f"Bir hata oluştu: {e}"
 
@@ -302,11 +388,56 @@ def trips_list():
         return "Veri tabanı bağlantı hatası!", 500
     try:
         cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM trips")
+        
+        # Arama ve filtreleme
+        search = request.args.get('search', '').strip()
+        route_filter = request.args.get('route', '').strip()
+        page = int(request.args.get('page', 1))
+        per_page = 50
+        
+        where_clauses = []
+        params = []
+        
+        if search:
+            where_clauses.append("(trip_id LIKE %s OR trip_headsign LIKE %s)")
+            search_param = f"%{search}%"
+            params.extend([search_param, search_param])
+        
+        if route_filter:
+            where_clauses.append("route_id = %s")
+            params.append(route_filter)
+        
+        where_sql = " WHERE " + " AND ".join(where_clauses) if where_clauses else ""
+        
+        # Toplam kayıt
+        count_sql = f"SELECT COUNT(*) as total FROM trips{where_sql}"
+        cursor.execute(count_sql, params)
+        total_records = cursor.fetchone()['total']
+        total_pages = (total_records + per_page - 1) // per_page
+        
+        # Routes listesi (filtreleme için)
+        cursor.execute("SELECT DISTINCT route_id FROM routes ORDER BY route_id LIMIT 100")
+        routes = cursor.fetchall()
+        
+        # Sayfalama
+        offset = (page - 1) * per_page
+        sql = f"SELECT * FROM trips{where_sql} ORDER BY trip_id LIMIT %s OFFSET %s"
+        params.extend([per_page, offset])
+        cursor.execute(sql, params)
         results = cursor.fetchall()
+        
         cursor.close()
         conn.close()
-        return render_template('trips_list.html', trips_list=results)
+        
+        return render_template('trips_list.html', 
+                             trips_list=results,
+                             routes=routes,
+                             search=search,
+                             route_filter=route_filter,
+                             page=page,
+                             total_pages=total_pages,
+                             total_records=total_records,
+                             per_page=per_page)
     except Exception as e:
         return f"Bir hata oluştu: {e}"
 
@@ -398,11 +529,51 @@ def stop_times_list():
         return "Veri tabanı bağlantı hatası!", 500
     try:
         cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM stop_times LIMIT 100")
+        
+        # Arama ve filtreleme
+        search = request.args.get('search', '').strip()
+        trip_filter = request.args.get('trip', '').strip()
+        page = int(request.args.get('page', 1))
+        per_page = 50
+        
+        where_clauses = []
+        params = []
+        
+        if search:
+            where_clauses.append("(trip_id LIKE %s OR stop_id LIKE %s)")
+            search_param = f"%{search}%"
+            params.extend([search_param, search_param])
+        
+        if trip_filter:
+            where_clauses.append("trip_id = %s")
+            params.append(trip_filter)
+        
+        where_sql = " WHERE " + " AND ".join(where_clauses) if where_clauses else ""
+        
+        # Toplam kayıt
+        count_sql = f"SELECT COUNT(*) as total FROM stop_times{where_sql}"
+        cursor.execute(count_sql, params)
+        total_records = cursor.fetchone()['total']
+        total_pages = (total_records + per_page - 1) // per_page
+        
+        # Sayfalama
+        offset = (page - 1) * per_page
+        sql = f"SELECT * FROM stop_times{where_sql} ORDER BY trip_id, stop_sequence LIMIT %s OFFSET %s"
+        params.extend([per_page, offset])
+        cursor.execute(sql, params)
         results = cursor.fetchall()
+        
         cursor.close()
         conn.close()
-        return render_template('stop_times_list.html', stop_times_list=results)
+        
+        return render_template('stop_times_list.html', 
+                             stop_times_list=results,
+                             search=search,
+                             trip_filter=trip_filter,
+                             page=page,
+                             total_pages=total_pages,
+                             total_records=total_records,
+                             per_page=per_page)
     except Exception as e:
         return f"Bir hata oluştu: {e}"
 
