@@ -1,65 +1,69 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<h2>{{ 'Ajans Düzenle' if agency else 'Yeni Ajans Ekle' }}</h2>
+<div style="max-width: 800px; margin: 0 auto; padding: 2rem;">
+    <h2 style="color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 2rem;">
+        {{ 'Edit Agency' if agency else 'Add Agency' }}
+    </h2>
 
-<form method="POST" class="mt-3">
-    <div class="row">
-        <div class="col-md-6 mb-3">
-            <label class="form-label">Agency ID (Zorunlu)</label>
-            <input type="text" name="agency_id" class="form-control" 
-                   value="{{ agency['agency_id'] if agency else '' }}" 
-                   {{ 'readonly' if agency else 'required' }}>
+    <form method="POST" style="background: var(--card-bg); border: 1px solid var(--border-color); padding: 2rem; backdrop-filter: blur(10px); clip-path: polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px);">
+        <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; color: var(--primary-cyan); font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.9rem;">Agency ID (Zorunlu)</label>
+            <input type="text" name="agency_id" value="{{ agency['agency_id'] if agency else '' }}" 
+                   {{ 'readonly' if agency else 'required' }}
+                   style="width: 100%; padding: 0.8rem; background: rgba(0, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-primary); font-family: inherit;">
         </div>
 
-        <div class="col-md-6 mb-3">
-            <label class="form-label">Agency Name (Zorunlu)</label>
-            <input type="text" name="agency_name" class="form-control" 
-                   value="{{ agency['agency_name'] if agency else '' }}" required>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-6 mb-3">
-            <label class="form-label">Agency URL (Zorunlu)</label>
-            <input type="text" name="agency_url" class="form-control" 
-                   value="{{ agency['agency_url'] if agency else '' }}" required>
+        <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; color: var(--primary-cyan); font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.9rem;">Agency Name (Zorunlu)</label>
+            <input type="text" name="agency_name" value="{{ agency['agency_name'] if agency else '' }}" required
+                   style="width: 100%; padding: 0.8rem; background: rgba(0, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-primary); font-family: inherit;">
         </div>
 
-        <div class="col-md-3 mb-3">
-            <label class="form-label">Timezone (Örn: Europe/Istanbul)</label>
-            <input type="text" name="agency_timezone" class="form-control" 
-                   value="{{ agency['agency_timezone'] if agency else 'Europe/Istanbul' }}" required>
+        <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; color: var(--primary-cyan); font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.9rem;">Agency URL (Zorunlu)</label>
+            <input type="text" name="agency_url" value="{{ agency['agency_url'] if agency else '' }}" required
+                   style="width: 100%; padding: 0.8rem; background: rgba(0, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-primary); font-family: inherit;">
         </div>
 
-        <div class="col-md-3 mb-3">
-            <label class="form-label">Language (Örn: tr)</label>
-            <input type="text" name="agency_lang" class="form-control" 
-                   value="{{ agency['agency_lang'] if agency else 'tr' }}" required>
-        </div>
-    </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+            <div>
+                <label style="display: block; color: var(--primary-cyan); font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.9rem;">Timezone</label>
+                <input type="text" name="agency_timezone" value="{{ agency['agency_timezone'] if agency else 'Europe/Istanbul' }}" required
+                       style="width: 100%; padding: 0.8rem; background: rgba(0, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-primary); font-family: inherit;">
+            </div>
 
-    <div class="row">
-        <div class="col-md-6 mb-3">
-            <label class="form-label">Phone (Opsiyonel)</label>
-            <input type="text" name="agency_phone" class="form-control" 
-                   value="{{ agency['agency_phone'] if agency else '' }}">
+            <div>
+                <label style="display: block; color: var(--primary-cyan); font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.9rem;">Language</label>
+                <input type="text" name="agency_lang" value="{{ agency['agency_lang'] if agency else 'tr' }}" required
+                       style="width: 100%; padding: 0.8rem; background: rgba(0, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-primary); font-family: inherit;">
+            </div>
         </div>
 
-        <div class="col-md-6 mb-3">
-            <label class="form-label">Fare URL (Opsiyonel)</label>
-            <input type="text" name="agency_fare_url" class="form-control" 
-                   value="{{ agency['agency_fare_url'] if agency else '' }}">
-        </div>
-    </div>
-    
-    <div class="mb-3">
-        <label class="form-label">Email (Opsiyonel)</label>
-        <input type="email" name="agency_email" class="form-control" 
-               value="{{ agency['agency_email'] if agency else '' }}">
-    </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+            <div>
+                <label style="display: block; color: var(--primary-cyan); font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.9rem;">Phone (Opsiyonel)</label>
+                <input type="text" name="agency_phone" value="{{ agency['agency_phone'] if agency else '' }}"
+                       style="width: 100%; padding: 0.8rem; background: rgba(0, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-primary); font-family: inherit;">
+            </div>
 
-    <button type="submit" class="btn btn-primary">Kaydet</button>
-    <a href="/agency" class="btn btn-secondary">İptal</a>
-</form>
+            <div>
+                <label style="display: block; color: var(--primary-cyan); font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.9rem;">Fare URL (Opsiyonel)</label>
+                <input type="text" name="agency_fare_url" value="{{ agency['agency_fare_url'] if agency else '' }}"
+                       style="width: 100%; padding: 0.8rem; background: rgba(0, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-primary); font-family: inherit;">
+            </div>
+        </div>
+        
+        <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; color: var(--primary-cyan); font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.9rem;">Email (Opsiyonel)</label>
+            <input type="email" name="agency_email" value="{{ agency['agency_email'] if agency else '' }}"
+                   style="width: 100%; padding: 0.8rem; background: rgba(0, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-primary); font-family: inherit;">
+        </div>
+
+        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+            <button type="submit" style="background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple)); color: var(--darker-bg); padding: 1rem 2rem; border: none; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%); cursor: pointer;">Kaydet</button>
+            <a href="/agency" style="background: transparent; color: var(--text-secondary); padding: 1rem 2rem; text-decoration: none; border: 1px solid var(--border-color); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%); display: inline-block;">İptal</a>
+        </div>
+    </form>
+</div>
 {% endblock %}

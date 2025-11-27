@@ -1,46 +1,50 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<h2>Ajans Listesi (Agency)</h2>
-<a href="/agency/add" class="btn btn-success mb-3">+ Yeni Ajans Ekle</a>
-
-<div class="table-responsive">
-    <table class="table table-striped table-bordered">
-        <thead class="table-dark">
-            <tr>
-                <th>ID</th>
-                <th>Ad</th>
-                <th>URL</th>
-                <th>Timezone</th>
-                <th>Lang</th>
-                <th>Telefon</th>
-                <th>Fare URL</th> 
-                <th>Email</th>    
-                <th>İşlemler</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for agency in agency_list %}
-            <tr>
-                <td>{{ agency['agency_id'] }}</td>
-                <td>{{ agency['agency_name'] }}</td>
-                <td><a href="{{ agency['agency_url'] }}" target="_blank">Link</a></td>
-                <td>{{ agency['agency_timezone'] }}</td>
-                <td>{{ agency['agency_lang'] }}</td>
-                <td>{{ agency['agency_phone'] }}</td>
-                <td><a href="{{ agency['agency_fare_url'] }}" target="_blank">Fare Link</a></td>
-                <td>{{ agency['agency_email'] }}</td>
-                <td>
-                    <a href="/agency/edit/{{ agency['agency_id'] }}" class="btn btn-warning btn-sm">Düzenle</a>
-                    <a href="/agency/delete/{{ agency['agency_id'] }}" class="btn btn-danger btn-sm" onclick="return confirm('Silmek istediğine emin misin?')">Sil</a>
-                </td>
-            </tr>
-            {% else %}
-            <tr>
-                <td colspan="9" class="text-center">Kayıt yok.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div style="max-width: 1400px; margin: 0 auto; padding: 2rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h2 style="color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 2px;">Ajans Listesi (Agency)</h2>
+        <a href="/agency/add" style="background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple)); color: var(--darker-bg); padding: 0.8rem 2rem; text-decoration: none; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%);">+ Yeni Ajans Ekle</a>
+    </div>
+    
+    <div class="table-responsive" style="background: var(--card-bg); border: 1px solid var(--border-color); padding: 2rem; backdrop-filter: blur(10px); clip-path: polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px);">
+        <table style="width: 100%; border-collapse: collapse; color: var(--text-primary);">
+            <thead>
+                <tr style="border-bottom: 2px solid var(--primary-cyan);">
+                    <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">ID</th>
+                    <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">Ad</th>
+                    <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">URL</th>
+                    <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">Timezone</th>
+                    <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">Lang</th>
+                    <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">Telefon</th>
+                    <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">Fare URL</th>
+                    <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">Email</th>
+                    <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for agency in agency_list %}
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                    <td style="padding: 1rem;">{{ agency['agency_id'] }}</td>
+                    <td style="padding: 1rem;">{{ agency['agency_name'] }}</td>
+                    <td style="padding: 1rem;"><a href="{{ agency['agency_url'] }}" target="_blank" style="color: var(--primary-cyan);">Link</a></td>
+                    <td style="padding: 1rem;">{{ agency['agency_timezone'] }}</td>
+                    <td style="padding: 1rem;">{{ agency['agency_lang'] }}</td>
+                    <td style="padding: 1rem;">{{ agency['agency_phone'] or '-' }}</td>
+                    <td style="padding: 1rem;">{% if agency['agency_fare_url'] %}<a href="{{ agency['agency_fare_url'] }}" target="_blank" style="color: var(--primary-cyan);">Fare Link</a>{% else %}-{% endif %}</td>
+                    <td style="padding: 1rem;">{{ agency['agency_email'] or '-' }}</td>
+                    <td style="padding: 1rem;">
+                        <a href="/agency/edit/{{ agency['agency_id'] }}" style="background: var(--primary-orange); color: var(--darker-bg); padding: 0.5rem 1rem; text-decoration: none; margin-right: 0.5rem; font-size: 0.85rem; clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);">Düzenle</a>
+                        <a href="/agency/delete/{{ agency['agency_id'] }}" onclick="return confirm('Silmek istediğine emin misin?')" style="background: #ef4444; color: white; padding: 0.5rem 1rem; text-decoration: none; font-size: 0.85rem; clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);">Sil</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="9" style="padding: 2rem; text-align: center; color: var(--text-secondary);">Kayıt yok.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}

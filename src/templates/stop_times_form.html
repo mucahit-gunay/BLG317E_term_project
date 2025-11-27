@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 0 auto; padding: 2rem;">
+    <h2 style="color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 2rem;">
+        {{ 'Durak Zamanı Düzenle' if stop_time else 'Yeni Durak Zamanı Ekle' }}
+    </h2>
+
+    <form method="POST" style="background: var(--card-bg); border: 1px solid var(--border-color); padding: 2rem; backdrop-filter: blur(10px); clip-path: polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px);">
+        <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; color: var(--primary-cyan); font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.9rem;">Trip ID (Zorunlu)</label>
+            <select name="trip_id" {{ 'readonly' if stop_time else 'required' }} style="width: 100%; padding: 0.8rem; background: rgba(0, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-primary); font-family: inherit;">
+                {% if stop_time %}
+                    <option value="{{ stop_time['trip_id'] }}">{{ stop_time['trip_id'] }}</option>
+                {% else %}
+                    <option value="">Seçiniz</option>
+                    {% for trip in trips %}
+                    <option value="{{ trip['trip_id'] }}">{{ trip['trip_id'] }}</option>
+                    {% endfor %}
+                {% endif %}
+            </select>
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; color: var(--primary-cyan); font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.9rem;">Stop ID (Zorunlu)</label>
+            <select name="stop_id" required style="width: 100%; padding: 0.8rem; background: rgba(0, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-primary); font-family: inherit;">
+                <option value="">Seçiniz</option>
+                {% for stop in stops %}
+                <option value="{{ stop['stop_id'] }}" {{ 'selected' if stop_time and stop_time['stop_id'] == stop['stop_id'] else '' }}>
+                    {{ stop['stop_id'] }} - {{ stop['stop_name'] }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; color: var(--primary-cyan); font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.9rem;">Stop Sequence (Zorunlu)</label>
+            <input type="number" name="stop_sequence" value="{{ stop_time['stop_sequence'] if stop_time else '' }}" 
+                   {{ 'readonly' if stop_time else 'required' }}
+                   style="width: 100%; padding: 0.8rem; background: rgba(0, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-primary); font-family: inherit;">
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; color: var(--primary-cyan); font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.9rem;">Varış Saati (Zorunlu)</label>
+            <input type="time" name="arrival_time" value="{{ stop_time['arrival_time'] if stop_time else '' }}" required
+                   style="width: 100%; padding: 0.8rem; background: rgba(0, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-primary); font-family: inherit;">
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; color: var(--primary-cyan); font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.9rem;">Kalkış Saati (Zorunlu)</label>
+            <input type="time" name="departure_time" value="{{ stop_time['departure_time'] if stop_time else '' }}" required
+                   style="width: 100%; padding: 0.8rem; background: rgba(0, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-primary); font-family: inherit;">
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; color: var(--primary-cyan); font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.9rem;">Stop Head Sign</label>
+            <input type="text" name="stop_headsign" value="{{ stop_time['stop_headsign'] if stop_time else '' }}"
+                   style="width: 100%; padding: 0.8rem; background: rgba(0, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-primary); font-family: inherit;">
+        </div>
+
+        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+            <button type="submit" style="background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple)); color: var(--darker-bg); padding: 1rem 2rem; border: none; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%); cursor: pointer;">Kaydet</button>
+            <a href="/stop_times" style="background: transparent; color: var(--text-secondary); padding: 1rem 2rem; text-decoration: none; border: 1px solid var(--border-color); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%); display: inline-block;">İptal</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+

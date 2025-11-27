@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 0 auto; padding: 2rem;">
+    <h2 style="color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 2rem;">
+        {{ 'Sefer Düzenle' if trip else 'Yeni Sefer Ekle' }}
+    </h2>
+
+    <form method="POST" style="background: var(--card-bg); border: 1px solid var(--border-color); padding: 2rem; backdrop-filter: blur(10px); clip-path: polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px);">
+        <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; color: var(--primary-cyan); font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.9rem;">Trip ID (Zorunlu)</label>
+            <input type="number" name="trip_id" value="{{ trip['trip_id'] if trip else '' }}" 
+                   {{ 'readonly' if trip else 'required' }}
+                   style="width: 100%; padding: 0.8rem; background: rgba(0, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-primary); font-family: inherit;">
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; color: var(--primary-cyan); font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.9rem;">Route ID</label>
+            <select name="route_id" style="width: 100%; padding: 0.8rem; background: rgba(0, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-primary); font-family: inherit;">
+                <option value="">Seçiniz</option>
+                {% for route in routes %}
+                <option value="{{ route['route_id'] }}" {{ 'selected' if trip and trip['route_id'] == route['route_id'] else '' }}>
+                    {{ route['route_id'] }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; color: var(--primary-cyan); font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.9rem;">Service ID</label>
+            <select name="service_id" style="width: 100%; padding: 0.8rem; background: rgba(0, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-primary); font-family: inherit;">
+                <option value="">Seçiniz</option>
+                {% for service in services %}
+                <option value="{{ service['service_id'] }}" {{ 'selected' if trip and trip['service_id'] == service['service_id'] else '' }}>
+                    {{ service['service_id'] }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; color: var(--primary-cyan); font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.9rem;">Trip Head Sign</label>
+            <input type="text" name="trip_headsign" value="{{ trip['trip_headsign'] if trip else '' }}"
+                   style="width: 100%; padding: 0.8rem; background: rgba(0, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-primary); font-family: inherit;">
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; color: var(--primary-cyan); font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.9rem;">Başlangıç Saati</label>
+            <input type="time" name="start_time" value="{{ trip['start_time'] if trip else '' }}"
+                   style="width: 100%; padding: 0.8rem; background: rgba(0, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-primary); font-family: inherit;">
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; color: var(--primary-cyan); font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.9rem;">Yön ID</label>
+            <input type="number" name="direction_id" value="{{ trip['direction_id'] if trip else '' }}"
+                   style="width: 100%; padding: 0.8rem; background: rgba(0, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-primary); font-family: inherit;">
+        </div>
+
+        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+            <button type="submit" style="background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple)); color: var(--darker-bg); padding: 1rem 2rem; border: none; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%); cursor: pointer;">Kaydet</button>
+            <a href="/trips" style="background: transparent; color: var(--text-secondary); padding: 1rem 2rem; text-decoration: none; border: 1px solid var(--border-color); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%); display: inline-block;">İptal</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+

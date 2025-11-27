@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 0 auto; padding: 2rem;">
+    <h2 style="color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 2rem;">
+        {{ 'Şekil Düzenle' if shape else 'Yeni Şekil Ekle' }}
+    </h2>
+
+    <form method="POST" style="background: var(--card-bg); border: 1px solid var(--border-color); padding: 2rem; backdrop-filter: blur(10px); clip-path: polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px);">
+        <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; color: var(--primary-cyan); font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.9rem;">Shape ID (Zorunlu)</label>
+            <input type="number" name="shape_id" value="{{ shape['shape_id'] if shape else '' }}" 
+                   {{ 'readonly' if shape else 'required' }}
+                   style="width: 100%; padding: 0.8rem; background: rgba(0, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-primary); font-family: inherit;">
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; color: var(--primary-cyan); font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.9rem;">Nokta Sırası (Zorunlu)</label>
+            <input type="number" name="shape_pt_sequence" value="{{ shape['shape_pt_sequence'] if shape else '' }}" 
+                   {{ 'readonly' if shape else 'required' }}
+                   style="width: 100%; padding: 0.8rem; background: rgba(0, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-primary); font-family: inherit;">
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; color: var(--primary-cyan); font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.9rem;">Enlem (Zorunlu)</label>
+            <input type="number" step="any" name="shape_pt_lat" value="{{ shape['shape_pt_lat'] if shape else '' }}" required
+                   style="width: 100%; padding: 0.8rem; background: rgba(0, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-primary); font-family: inherit;">
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; color: var(--primary-cyan); font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.9rem;">Boylam (Zorunlu)</label>
+            <input type="number" step="any" name="shape_pt_lon" value="{{ shape['shape_pt_lon'] if shape else '' }}" required
+                   style="width: 100%; padding: 0.8rem; background: rgba(0, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-primary); font-family: inherit;">
+        </div>
+
+        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+            <button type="submit" style="background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple)); color: var(--darker-bg); padding: 1rem 2rem; border: none; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%); cursor: pointer;">Kaydet</button>
+            <a href="/shapes" style="background: transparent; color: var(--text-secondary); padding: 1rem 2rem; text-decoration: none; border: 1px solid var(--border-color); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%); display: inline-block;">İptal</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+

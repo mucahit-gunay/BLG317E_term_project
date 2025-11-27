@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 0 auto; padding: 2rem;">
+    <h2 style="color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 2rem;">
+        {{ 'Frekans Düzenle' if frequency else 'Yeni Frekans Ekle' }}
+    </h2>
+
+    <form method="POST" style="background: var(--card-bg); border: 1px solid var(--border-color); padding: 2rem; backdrop-filter: blur(10px); clip-path: polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px);">
+        <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; color: var(--primary-cyan); font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.9rem;">Trip ID (Zorunlu)</label>
+            <select name="trip_id" {{ 'readonly' if frequency else 'required' }} style="width: 100%; padding: 0.8rem; background: rgba(0, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-primary); font-family: inherit;">
+                {% if frequency %}
+                    <option value="{{ frequency['trip_id'] }}">{{ frequency['trip_id'] }}</option>
+                {% else %}
+                    <option value="">Seçiniz</option>
+                    {% for trip in trips %}
+                    <option value="{{ trip['trip_id'] }}">{{ trip['trip_id'] }}</option>
+                    {% endfor %}
+                {% endif %}
+            </select>
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; color: var(--primary-cyan); font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.9rem;">Başlangıç Saati (Zorunlu)</label>
+            <input type="time" name="start_time" value="{{ frequency['start_time'] if frequency else '' }}" 
+                   {{ 'readonly' if frequency else 'required' }}
+                   style="width: 100%; padding: 0.8rem; background: rgba(0, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-primary); font-family: inherit;">
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; color: var(--primary-cyan); font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.9rem;">Bitiş Saati (Zorunlu)</label>
+            <input type="time" name="end_time" value="{{ frequency['end_time'] if frequency else '' }}" required
+                   style="width: 100%; padding: 0.8rem; background: rgba(0, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-primary); font-family: inherit;">
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+            <label style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-primary);">
+                <input type="checkbox" name="exact_times" value="1" {{ 'checked' if frequency and frequency['exact_times'] == 1 else '' }}>
+                <span>Exact Times</span>
+            </label>
+        </div>
+
+        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+            <button type="submit" style="background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple)); color: var(--darker-bg); padding: 1rem 2rem; border: none; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%); cursor: pointer;">Kaydet</button>
+            <a href="/frequencies" style="background: transparent; color: var(--text-secondary); padding: 1rem 2rem; text-decoration: none; border: 1px solid var(--border-color); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%); display: inline-block;">İptal</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+

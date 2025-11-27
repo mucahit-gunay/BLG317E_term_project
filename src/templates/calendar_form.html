@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 0 auto; padding: 2rem;">
+    <h2 style="color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 2rem;">
+        {{ 'Takvim Düzenle' if calendar else 'Yeni Takvim Ekle' }}
+    </h2>
+
+    <form method="POST" style="background: var(--card-bg); border: 1px solid var(--border-color); padding: 2rem; backdrop-filter: blur(10px); clip-path: polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px);">
+        <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; color: var(--primary-cyan); font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.9rem;">Service ID (Zorunlu)</label>
+            <input type="text" name="service_id" value="{{ calendar['service_id'] if calendar else '' }}" 
+                   {{ 'readonly' if calendar else 'required' }}
+                   style="width: 100%; padding: 0.8rem; background: rgba(0, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-primary); font-family: inherit;">
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; color: var(--primary-cyan); font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.9rem;">Başlangıç Tarihi (YYYYMMDD)</label>
+            <input type="text" name="start_date" value="{{ calendar['start_date'] if calendar else '' }}" required placeholder="20250101"
+                   style="width: 100%; padding: 0.8rem; background: rgba(0, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-primary); font-family: inherit;">
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; color: var(--primary-cyan); font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.9rem;">Bitiş Tarihi (YYYYMMDD)</label>
+            <input type="text" name="end_date" value="{{ calendar['end_date'] if calendar else '' }}" required placeholder="20251231"
+                   style="width: 100%; padding: 0.8rem; background: rgba(0, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-primary); font-family: inherit;">
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; color: var(--primary-cyan); font-weight: 600; margin-bottom: 1rem; text-transform: uppercase; font-size: 0.9rem;">Haftanın Günleri</label>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                <label style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-primary);">
+                    <input type="checkbox" name="monday" value="1" {{ 'checked' if calendar and calendar['monday'] == '1' else '' }}>
+                    <span>Pazartesi</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-primary);">
+                    <input type="checkbox" name="tuesday" value="1" {{ 'checked' if calendar and calendar['tuesday'] == '1' else '' }}>
+                    <span>Salı</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-primary);">
+                    <input type="checkbox" name="wednesday" value="1" {{ 'checked' if calendar and calendar['wednesday'] == '1' else '' }}>
+                    <span>Çarşamba</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-primary);">
+                    <input type="checkbox" name="thursday" value="1" {{ 'checked' if calendar and calendar['thursday'] == '1' else '' }}>
+                    <span>Perşembe</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-primary);">
+                    <input type="checkbox" name="friday" value="1" {{ 'checked' if calendar and calendar['friday'] == '1' else '' }}>
+                    <span>Cuma</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-primary);">
+                    <input type="checkbox" name="saturday" value="1" {{ 'checked' if calendar and calendar['saturday'] == '1' else '' }}>
+                    <span>Cumartesi</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-primary);">
+                    <input type="checkbox" name="sunday" value="1" {{ 'checked' if calendar and calendar['sunday'] == '1' else '' }}>
+                    <span>Pazar</span>
+                </label>
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+            <button type="submit" style="background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple)); color: var(--darker-bg); padding: 1rem 2rem; border: none; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%); cursor: pointer;">Kaydet</button>
+            <a href="/calendar" style="background: transparent; color: var(--text-secondary); padding: 1rem 2rem; text-decoration: none; border: 1px solid var(--border-color); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%); display: inline-block;">İptal</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+

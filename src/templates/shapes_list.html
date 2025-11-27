@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div style="max-width: 1400px; margin: 0 auto; padding: 2rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h2 style="color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 2px;">Şekiller Listesi (Shapes)</h2>
+        <a href="/shapes/add" style="background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple)); color: var(--darker-bg); padding: 0.8rem 2rem; text-decoration: none; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%);">+ Yeni Şekil Ekle</a>
+    </div>
+    
+    <div class="table-responsive" style="background: var(--card-bg); border: 1px solid var(--border-color); padding: 2rem; backdrop-filter: blur(10px); clip-path: polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px);">
+        <table style="width: 100%; border-collapse: collapse; color: var(--text-primary);">
+            <thead>
+                <tr style="border-bottom: 2px solid var(--primary-cyan);">
+                    <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">Shape ID</th>
+                    <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">Sıra</th>
+                    <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">Enlem</th>
+                    <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">Boylam</th>
+                    <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for shape in shapes_list %}
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                    <td style="padding: 1rem;">{{ shape['shape_id'] }}</td>
+                    <td style="padding: 1rem;">{{ shape['shape_pt_sequence'] }}</td>
+                    <td style="padding: 1rem;">{{ shape['shape_pt_lat'] }}</td>
+                    <td style="padding: 1rem;">{{ shape['shape_pt_lon'] }}</td>
+                    <td style="padding: 1rem;">
+                        <a href="/shapes/edit/{{ shape['shape_id'] }}/{{ shape['shape_pt_sequence'] }}" style="background: var(--primary-orange); color: var(--darker-bg); padding: 0.5rem 1rem; text-decoration: none; margin-right: 0.5rem; font-size: 0.85rem; clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);">Düzenle</a>
+                        <a href="/shapes/delete/{{ shape['shape_id'] }}/{{ shape['shape_pt_sequence'] }}" onclick="return confirm('Silmek istediğine emin misin?')" style="background: #ef4444; color: white; padding: 0.5rem 1rem; text-decoration: none; font-size: 0.85rem; clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);">Sil</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" style="padding: 2rem; text-align: center; color: var(--text-secondary);">Kayıt bulunamadı.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+

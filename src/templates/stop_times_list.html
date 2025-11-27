@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div style="max-width: 1400px; margin: 0 auto; padding: 2rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h2 style="color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 2px;">Durak Zamanları Listesi (Stop Times)</h2>
+        <a href="/stop_times/add" style="background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple)); color: var(--darker-bg); padding: 0.8rem 2rem; text-decoration: none; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%);">+ Yeni Kayıt Ekle</a>
+    </div>
+    
+    <div class="table-responsive" style="background: var(--card-bg); border: 1px solid var(--border-color); padding: 2rem; backdrop-filter: blur(10px); clip-path: polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px);">
+        <table style="width: 100%; border-collapse: collapse; color: var(--text-primary);">
+            <thead>
+                <tr style="border-bottom: 2px solid var(--primary-cyan);">
+                    <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">Trip ID</th>
+                    <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">Stop ID</th>
+                    <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">Sıra</th>
+                    <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">Varış</th>
+                    <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">Kalkış</th>
+                    <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">Head Sign</th>
+                    <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for st in stop_times_list %}
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                    <td style="padding: 1rem;">{{ st['trip_id'] }}</td>
+                    <td style="padding: 1rem;">{{ st['stop_id'] }}</td>
+                    <td style="padding: 1rem;">{{ st['stop_sequence'] }}</td>
+                    <td style="padding: 1rem;">{{ st['arrival_time'] or '-' }}</td>
+                    <td style="padding: 1rem;">{{ st['departure_time'] or '-' }}</td>
+                    <td style="padding: 1rem;">{{ st['stop_headsign'] or '-' }}</td>
+                    <td style="padding: 1rem;">
+                        <a href="/stop_times/edit/{{ st['trip_id'] }}/{{ st['stop_sequence'] }}" style="background: var(--primary-orange); color: var(--darker-bg); padding: 0.5rem 1rem; text-decoration: none; margin-right: 0.5rem; font-size: 0.85rem; clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);">Düzenle</a>
+                        <a href="/stop_times/delete/{{ st['trip_id'] }}/{{ st['stop_sequence'] }}" onclick="return confirm('Silmek istediğine emin misin?')" style="background: #ef4444; color: white; padding: 0.5rem 1rem; text-decoration: none; font-size: 0.85rem; clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);">Sil</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="7" style="padding: 2rem; text-align: center; color: var(--text-secondary);">Kayıt bulunamadı.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
