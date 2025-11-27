@@ -1,7 +1,7 @@
 # TESSERACT GTFS Project Setup Script
 # Bu script projeyi kurmak için gerekli tüm adımları otomatik olarak yapar
 
-set -e  # Hata durumunda dur
+set -e  
 
 echo "TESSERACT GTFS Project Setup"
 
@@ -11,7 +11,7 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 RED='\033[0;31m'
 BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+NC='\033[0m' 
 
 # 1. Python ve pip kontrolü
 echo -e "${YELLOW}📦 Python kontrolü...${NC}"
@@ -155,7 +155,7 @@ echo -e "${GREEN}✅ Eski tablolar temizlendi${NC}"
 # 9. Schema'yı yükle
 echo -e "${YELLOW}📋 Veritabanı şeması yükleniyor...${NC}"
 if [ -f "DOCS/schema.sql" ]; then
-    # Yorum satırlarını temizle (-- ile başlayan veya boşluk sonrası -- olan satırları kaldır)
+    
     sed 's/--.*$//' DOCS/schema.sql | sed '/^[[:space:]]*$/d' > /tmp/schema_clean.sql
     
     $MYSQL_CMD ${DB_NAME} < /tmp/schema_clean.sql || {
