@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 GTFS Verilerini İndir ve Veritabanına Yükle
 İBB Açık Veri Portalı: https://data.ibb.gov.tr/dataset/public-transport-gtfs-data

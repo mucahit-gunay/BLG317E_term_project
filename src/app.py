@@ -116,7 +116,7 @@ def agency_delete(id):
 def route_list():
     conn = db.get_db_connection()
     if conn is None:
-        return "Veri tabanı bağlantı hatası!", 500
+        return "Database connection error!", 500
     try:
         cursor = conn.cursor(dictionary=True)
         
@@ -177,7 +177,7 @@ def route_list():
                              total_records=total_records,
                              per_page=per_page)
     except Exception as e:
-        return f"Bir hata oluştu: {e}"
+        return f"An error occurred: {e}"
 
 @app.route('/routes/add', methods=['GET', 'POST'])
 def route_add():
@@ -199,7 +199,7 @@ def route_add():
             conn.commit()
             return redirect('/routes')
         except Exception as e:
-            return f"Hata: {e}"
+            return f"Error: {e}"
         finally:
             cursor.close()
             conn.close()
@@ -262,7 +262,7 @@ def route_delete(id):
 def stops_list():
     conn = db.get_db_connection()
     if conn is None:
-        return "Veri tabanı bağlantı hatası!", 500
+        return "Database connection error!", 500
     try:
         cursor = conn.cursor(dictionary=True)
         
@@ -305,7 +305,7 @@ def stops_list():
                              total_records=total_records,
                              per_page=per_page)
     except Exception as e:
-        return f"Bir hata oluştu: {e}"
+        return f"An error occurred: {e}"
 
 @app.route('/stops/add', methods=['GET', 'POST'])
 def stops_add():
@@ -325,7 +325,7 @@ def stops_add():
             conn.commit()
             return redirect('/stops')
         except Exception as e:
-            return f"Hata: {e}"
+            return f"Error: {e}"
         finally:
             cursor.close()
             conn.close()
@@ -385,7 +385,7 @@ def stops_delete(id):
 def trips_list():
     conn = db.get_db_connection()
     if conn is None:
-        return "Veri tabanı bağlantı hatası!", 500
+        return "Database connection error!", 500
     try:
         cursor = conn.cursor(dictionary=True)
         
@@ -439,7 +439,7 @@ def trips_list():
                              total_records=total_records,
                              per_page=per_page)
     except Exception as e:
-        return f"Bir hata oluştu: {e}"
+        return f"An error occurred: {e}"
 
 @app.route('/trips/add', methods=['GET', 'POST'])
 def trips_add():
@@ -460,7 +460,7 @@ def trips_add():
             conn.commit()
             return redirect('/trips')
         except Exception as e:
-            return f"Hata: {e}"
+            return f"Error: {e}"
         finally:
             cursor.close()
             conn.close()
@@ -526,7 +526,7 @@ def trips_delete(id):
 def stop_times_list():
     conn = db.get_db_connection()
     if conn is None:
-        return "Veri tabanı bağlantı hatası!", 500
+        return "Database connection error!", 500
     try:
         cursor = conn.cursor(dictionary=True)
         
@@ -575,7 +575,7 @@ def stop_times_list():
                              total_records=total_records,
                              per_page=per_page)
     except Exception as e:
-        return f"Bir hata oluştu: {e}"
+        return f"An error occurred: {e}"
 
 @app.route('/stop_times/add', methods=['GET', 'POST'])
 def stop_times_add():
@@ -596,7 +596,7 @@ def stop_times_add():
             conn.commit()
             return redirect('/stop_times')
         except Exception as e:
-            return f"Hata: {e}"
+            return f"Error: {e}"
         finally:
             cursor.close()
             conn.close()
@@ -661,7 +661,7 @@ def stop_times_delete(trip_id, stop_sequence):
 def calendar_list():
     conn = db.get_db_connection()
     if conn is None:
-        return "Veri tabanı bağlantı hatası!", 500
+        return "Database connection error!", 500
     try:
         cursor = conn.cursor(dictionary=True)
         cursor.execute("SELECT * FROM calendar")
@@ -670,7 +670,7 @@ def calendar_list():
         conn.close()
         return render_template('calendar_list.html', calendar_list=results)
     except Exception as e:
-        return f"Bir hata oluştu: {e}"
+        return f"An error occurred: {e}"
 
 @app.route('/calendar/add', methods=['GET', 'POST'])
 def calendar_add():
@@ -695,7 +695,7 @@ def calendar_add():
             conn.commit()
             return redirect('/calendar')
         except Exception as e:
-            return f"Hata: {e}"
+            return f"Error: {e}"
         finally:
             cursor.close()
             conn.close()
@@ -752,7 +752,7 @@ def calendar_delete(id):
 def shapes_list():
     conn = db.get_db_connection()
     if conn is None:
-        return "Veri tabanı bağlantı hatası!", 500
+        return "Database connection error!", 500
     try:
         cursor = conn.cursor(dictionary=True)
         cursor.execute("SELECT * FROM shapes LIMIT 100")
@@ -761,7 +761,7 @@ def shapes_list():
         conn.close()
         return render_template('shapes_list.html', shapes_list=results)
     except Exception as e:
-        return f"Bir hata oluştu: {e}"
+        return f"An error occurred: {e}"
 
 @app.route('/shapes/add', methods=['GET', 'POST'])
 def shapes_add():
@@ -780,7 +780,7 @@ def shapes_add():
             conn.commit()
             return redirect('/shapes')
         except Exception as e:
-            return f"Hata: {e}"
+            return f"Error: {e}"
         finally:
             cursor.close()
             conn.close()
@@ -829,7 +829,7 @@ def shapes_delete(shape_id, shape_pt_sequence):
 def frequencies_list():
     conn = db.get_db_connection()
     if conn is None:
-        return "Veri tabanı bağlantı hatası!", 500
+        return "Database connection error!", 500
     try:
         cursor = conn.cursor(dictionary=True)
         cursor.execute("SELECT * FROM frequencies")
@@ -838,7 +838,7 @@ def frequencies_list():
         conn.close()
         return render_template('frequencies_list.html', frequencies_list=results)
     except Exception as e:
-        return f"Bir hata oluştu: {e}"
+        return f"An error occurred: {e}"
 
 @app.route('/frequencies/add', methods=['GET', 'POST'])
 def frequencies_add():
@@ -857,7 +857,7 @@ def frequencies_add():
             conn.commit()
             return redirect('/frequencies')
         except Exception as e:
-            return f"Hata: {e}"
+            return f"Error: {e}"
         finally:
             cursor.close()
             conn.close()

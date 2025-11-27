@@ -3,8 +3,8 @@
 {% block content %}
 <div style="max-width: 1400px; margin: 0 auto; padding: 2rem;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-        <h2 style="color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 2px;">Frekanslar Listesi (Frequencies)</h2>
-        <a href="/frequencies/add" style="background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple)); color: var(--darker-bg); padding: 0.8rem 2rem; text-decoration: none; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%);">+ Yeni Frekans Ekle</a>
+        <h2 style="color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 2px;">Frequencies List</h2>
+        <a href="/frequencies/add" style="background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple)); color: var(--darker-bg); padding: 0.8rem 2rem; text-decoration: none; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%);">+ Add New Frequency</a>
     </div>
     
     <div class="table-responsive" style="background: var(--card-bg); border: 1px solid var(--border-color); padding: 2rem; backdrop-filter: blur(10px); clip-path: polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px);">
@@ -12,10 +12,10 @@
             <thead>
                 <tr style="border-bottom: 2px solid var(--primary-cyan);">
                     <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">Trip ID</th>
-                    <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">Başlangıç</th>
-                    <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">Bitiş</th>
+                    <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">Start Time</th>
+                    <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">End Time</th>
                     <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">Exact Times</th>
-                    <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">İşlemler</th>
+                    <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -24,15 +24,15 @@
                     <td style="padding: 1rem;">{{ freq['trip_id'] }}</td>
                     <td style="padding: 1rem;">{{ freq['start_time'] }}</td>
                     <td style="padding: 1rem;">{{ freq['end_time'] }}</td>
-                    <td style="padding: 1rem;">{{ 'Evet' if freq['exact_times'] == 1 else 'Hayır' }}</td>
+                    <td style="padding: 1rem;">{{ 'Yes' if freq['exact_times'] == 1 else 'No' }}</td>
                     <td style="padding: 1rem;">
-                        <a href="/frequencies/edit/{{ freq['trip_id'] }}/{{ freq['start_time'] }}" style="background: var(--primary-orange); color: var(--darker-bg); padding: 0.5rem 1rem; text-decoration: none; margin-right: 0.5rem; font-size: 0.85rem; clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);">Düzenle</a>
-                        <a href="/frequencies/delete/{{ freq['trip_id'] }}/{{ freq['start_time'] }}" onclick="return confirm('Silmek istediğine emin misin?')" style="background: #ef4444; color: white; padding: 0.5rem 1rem; text-decoration: none; font-size: 0.85rem; clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);">Sil</a>
+                        <a href="/frequencies/edit/{{ freq['trip_id'] }}/{{ freq['start_time'] }}" style="background: var(--primary-orange); color: var(--darker-bg); padding: 0.5rem 1rem; text-decoration: none; margin-right: 0.5rem; font-size: 0.85rem; clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);">Edit</a>
+                        <a href="/frequencies/delete/{{ freq['trip_id'] }}/{{ freq['start_time'] }}" onclick="return confirm('Are you sure you want to delete?')" style="background: #ef4444; color: white; padding: 0.5rem 1rem; text-decoration: none; font-size: 0.85rem; clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);">Delete</a>
                     </td>
                 </tr>
                 {% else %}
                 <tr>
-                    <td colspan="5" style="padding: 2rem; text-align: center; color: var(--text-secondary);">Kayıt bulunamadı.</td>
+                    <td colspan="5" style="padding: 2rem; text-align: center; color: var(--text-secondary);">No records found.</td>
                 </tr>
                 {% endfor %}
             </tbody>

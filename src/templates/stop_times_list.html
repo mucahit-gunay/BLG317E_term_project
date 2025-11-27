@@ -3,30 +3,30 @@
 {% block content %}
 <div style="max-width: 1400px; margin: 0 auto; padding: 2rem;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
-        <h2 style="color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 2px; margin: 0;">Durak Zamanları Listesi (Stop Times)</h2>
-        <a href="/stop_times/add" style="background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple)); color: var(--darker-bg); padding: 0.8rem 2rem; text-decoration: none; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%);">+ Yeni Kayıt Ekle</a>
+        <h2 style="color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 2px; margin: 0;">Stop Times List</h2>
+        <a href="/stop_times/add" style="background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple)); color: var(--darker-bg); padding: 0.8rem 2rem; text-decoration: none; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%);">+ Add New Record</a>
     </div>
     
-    <!-- Arama -->
+    <!-- Search -->
     <div style="background: var(--card-bg); border: 1px solid var(--border-color); padding: 1.5rem; margin-bottom: 2rem; backdrop-filter: blur(10px); clip-path: polygon(20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%, 0% 20px);">
         <form method="GET" action="/stop_times" style="display: flex; gap: 1rem; align-items: end;">
             <div style="flex: 1;">
-                <label style="display: block; color: var(--primary-cyan); font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.85rem;">Ara (Trip ID, Stop ID)</label>
-                <input type="text" name="search" value="{{ search }}" placeholder="Ara..." 
+                <label style="display: block; color: var(--primary-cyan); font-weight: 600; margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.85rem;">Search (Trip ID, Stop ID)</label>
+                <input type="text" name="search" value="{{ search }}" placeholder="Search..." 
                        style="width: 100%; padding: 0.8rem; background: rgba(0, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-primary); font-family: inherit;">
             </div>
             <div style="display: flex; gap: 0.5rem;">
-                <button type="submit" style="background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple)); color: var(--darker-bg); padding: 0.8rem 1.5rem; border: none; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%); cursor: pointer;">Ara</button>
-                <a href="/stop_times" style="background: transparent; color: var(--text-secondary); padding: 0.8rem 1.5rem; text-decoration: none; border: 1px solid var(--border-color); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%); display: inline-block;">Temizle</a>
+                <button type="submit" style="background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple)); color: var(--darker-bg); padding: 0.8rem 1.5rem; border: none; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%); cursor: pointer;">Search</button>
+                <a href="/stop_times" style="background: transparent; color: var(--text-secondary); padding: 0.8rem 1.5rem; text-decoration: none; border: 1px solid var(--border-color); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%); display: inline-block;">Clear</a>
             </div>
         </form>
     </div>
     
-    <!-- Sonuç Bilgisi -->
+    <!-- Result Info -->
     <div style="margin-bottom: 1rem; color: var(--text-secondary); font-size: 0.9rem;">
-        Toplam <strong style="color: var(--primary-cyan);">{{ total_records }}</strong> kayıt bulundu
+        Total <strong style="color: var(--primary-cyan);">{{ total_records }}</strong> records found
         {% if search %}
-        (filtrelenmiş)
+        (filtered)
         {% endif %}
     </div>
     
@@ -36,11 +36,11 @@
                 <tr style="border-bottom: 2px solid var(--primary-cyan);">
                     <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">Trip ID</th>
                     <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">Stop ID</th>
-                    <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">Sıra</th>
-                    <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">Varış</th>
-                    <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">Kalkış</th>
+                    <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">Sequence</th>
+                    <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">Arrival</th>
+                    <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">Departure</th>
                     <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">Head Sign</th>
-                    <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">İşlemler</th>
+                    <th style="padding: 1rem; text-align: left; color: var(--primary-cyan); text-transform: uppercase; font-size: 0.9rem;">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -53,25 +53,25 @@
                     <td style="padding: 1rem;">{{ st['departure_time'] or '-' }}</td>
                     <td style="padding: 1rem;">{{ st['stop_headsign'] or '-' }}</td>
                     <td style="padding: 1rem;">
-                        <a href="/stop_times/edit/{{ st['trip_id'] }}/{{ st['stop_sequence'] }}" style="background: var(--primary-orange); color: var(--darker-bg); padding: 0.5rem 1rem; text-decoration: none; margin-right: 0.5rem; font-size: 0.85rem; clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);">Düzenle</a>
-                        <a href="/stop_times/delete/{{ st['trip_id'] }}/{{ st['stop_sequence'] }}" onclick="return confirm('Silmek istediğine emin misin?')" style="background: #ef4444; color: white; padding: 0.5rem 1rem; text-decoration: none; font-size: 0.85rem; clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);">Sil</a>
+                        <a href="/stop_times/edit/{{ st['trip_id'] }}/{{ st['stop_sequence'] }}" style="background: var(--primary-orange); color: var(--darker-bg); padding: 0.5rem 1rem; text-decoration: none; margin-right: 0.5rem; font-size: 0.85rem; clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);">Edit</a>
+                        <a href="/stop_times/delete/{{ st['trip_id'] }}/{{ st['stop_sequence'] }}" onclick="return confirm('Are you sure you want to delete?')" style="background: #ef4444; color: white; padding: 0.5rem 1rem; text-decoration: none; font-size: 0.85rem; clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);">Delete</a>
                     </td>
                 </tr>
                 {% else %}
                 <tr>
-                    <td colspan="7" style="padding: 2rem; text-align: center; color: var(--text-secondary);">Kayıt bulunamadı.</td>
+                    <td colspan="7" style="padding: 2rem; text-align: center; color: var(--text-secondary);">No records found.</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
     
-    <!-- Sayfalama -->
+    <!-- Pagination -->
     {% if total_pages > 1 %}
     <div style="display: flex; justify-content: center; align-items: center; gap: 0.5rem; margin-top: 2rem; flex-wrap: wrap;">
         {% if page > 1 %}
         <a href="?page={{ page - 1 }}{% if search %}&search={{ search }}{% endif %}" 
-           style="background: rgba(0, 255, 255, 0.1); color: var(--primary-cyan); padding: 0.8rem 1.5rem; text-decoration: none; border: 1px solid var(--border-color); clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%);">← Önceki</a>
+           style="background: rgba(0, 255, 255, 0.1); color: var(--primary-cyan); padding: 0.8rem 1.5rem; text-decoration: none; border: 1px solid var(--border-color); clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%);">← Previous</a>
         {% endif %}
         
         {% for p in range(1, total_pages + 1) %}
@@ -89,11 +89,11 @@
         
         {% if page < total_pages %}
         <a href="?page={{ page + 1 }}{% if search %}&search={{ search }}{% endif %}" 
-           style="background: rgba(0, 255, 255, 0.1); color: var(--primary-cyan); padding: 0.8rem 1.5rem; text-decoration: none; border: 1px solid var(--border-color); clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%);">Sonraki →</a>
+           style="background: rgba(0, 255, 255, 0.1); color: var(--primary-cyan); padding: 0.8rem 1.5rem; text-decoration: none; border: 1px solid var(--border-color); clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%);">Next →</a>
         {% endif %}
     </div>
     <div style="text-align: center; margin-top: 1rem; color: var(--text-secondary); font-size: 0.9rem;">
-        Sayfa {{ page }} / {{ total_pages }} ({{ per_page }} kayıt/sayfa)
+        Page {{ page }} / {{ total_pages }} ({{ per_page }} records/page)
     </div>
     {% endif %}
 </div>
